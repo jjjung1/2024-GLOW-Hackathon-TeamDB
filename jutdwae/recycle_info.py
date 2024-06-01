@@ -47,7 +47,7 @@ waste_data = {
         'examples': [
             {
                 'name': '병류',
-                'description': '병류는 내용물을 비우고 배출합니다.\n 깨진 유리제품은 신문지 등으로 싸서 종량제 봉투에 배출합니다.\n예시) 음료수병, 소주병, 맥주병',
+                'description': '병류는 내용물을 비우고 배출합니다.\n 깨진 유리제품은 신문지 등으로 싸서 종량제 봉투에 배출합니다.',
                 'image': 'images/soju.jpg'
             }
         ]
@@ -122,15 +122,15 @@ class WasteManagementApp(tk.Tk):
 
         self.scrollbar.pack(side="right", fill="y")
         self.main_canvas.pack(side="left", fill="both", expand=True)
-        self.main_canvas.create_window((4,4), window=self.main_frame, anchor="nw", 
+        self.main_canvas.create_window((4,4), window=self.main_frame, anchor="w", 
                                       tags="self.main_frame")
 
         self.main_frame.bind("<Configure>", self.on_frame_configure)
 
         self.create_main_buttons()
         
-        # Team DB 버튼 생성
-        self.create_team_db_button()
+        # # Team DB 버튼 생성
+        # self.create_team_db_button()
         
     def create_menu_buttons(self):
         menu_frame = tk.Frame(self, background="#ffffff")
@@ -156,16 +156,16 @@ class WasteManagementApp(tk.Tk):
     def go_to_qna(self):
         # Q&A 페이지로 이동하는 기능 추가
         messagebox.showinfo("Q&A", "Q&A 페이지로 이동합니다.")
-        url = "http://127.0.0.1:5000"
+        url = "http://localhost:5000"
         webbrowser.open_new(url)
         
-    def create_team_db_button(self):
-        team_db_button = tk.Button(self, text="Team DB", command=self.go_to_team_db, background="#ffffff")
-        team_db_button.pack(side="bottom", anchor="s", padx=10, pady=10)
+    # def create_team_db_button(self):
+    #     team_db_button = tk.Button(self, text="Team DB", command=self.go_to_team_db, background="#ffffff")
+    #     team_db_button.pack(side="bottom", anchor="s", padx=10, pady=10)
 
-    def go_to_team_db(self):
-        # Team DB 페이지로 이동하는 기능 추가
-        messagebox.showinfo("Team DB", "Team DB 페이지로 이동합니다.")
+    # def go_to_team_db(self):
+    #     # Team DB 페이지로 이동하는 기능 추가
+    #     messagebox.showinfo("Team DB", "Team DB 페이지로 이동합니다.")
 
     def on_frame_configure(self, event):
         '''Reset the scroll region to encompass the inner frame'''
@@ -186,7 +186,7 @@ class WasteManagementApp(tk.Tk):
             image = image.resize((100, 100), Image.LANCZOS)
             photo = ImageTk.PhotoImage(image)
 
-            button = tk.Button(button_frame, image=photo, command=lambda wt=waste_type: self.show_detail(wt), background="#ffffff")
+            button = tk.Button(button_frame, image=photo, command=lambda wt=waste_type: self.show_detail(wt), background="#ffffff", borderwidth=0)
             button.image = photo  # reference to avoid garbage collection
             button.pack()
 
@@ -221,10 +221,10 @@ class WasteManagementApp(tk.Tk):
         back_button.pack(pady=5)
         
         name_label = tk.Label(self.main_frame, text=waste['name'], font=('Arial', 18), background="#ffffff", fg="#000000")
-        name_label.pack(pady=5)
+        name_label.pack(pady=5, fill='x')
 
         description_label = tk.Label(self.main_frame, text=waste['description'], background="#ffffff", fg="#000000")
-        description_label.pack(pady=5)
+        description_label.pack(pady=5, fill='x')
 
         if os.path.exists(waste['image']):
             image = Image.open(waste['image'])
@@ -239,9 +239,9 @@ class WasteManagementApp(tk.Tk):
         example_label = tk.Label(self.main_frame, text="예시 물품", font=('Arial', 16), background="#ffffff", fg="#000000")
         example_label.pack(pady=10)
         
-        max_name_length = max(len(example['name']) for example in waste['examples'])
-        max_description_length = max(len(example['description']) for example in waste['examples'])
-
+        # max_name_length = max(len(example['name']) for example in waste['examples'])
+        # max_description_length = max(len(example['description']) for example in waste['examples'])
+ 
         for example in waste['examples']:
             example_frame = tk.Frame(self.main_frame, background="#ffffff")
             example_frame.pack(pady=5, fill="x")
@@ -250,13 +250,13 @@ class WasteManagementApp(tk.Tk):
             example_image_label.pack(side="left", padx=10)
 
             example_description_frame = tk.Frame(example_frame, background="#ffffff")
-            example_description_frame.pack(side="right", padx=10)
+            example_description_frame.pack(side="left", padx=10, fill='x', expand=True)
 
-            example_name_label = tk.Label(example_description_frame, text=example['name'], font=('Arial', 14), background="#ffffff", fg="#000000")
-            example_name_label.pack(pady=5)
+            example_name_label = tk.Label(example_description_frame, text=example['name'], font=('Arial', 14), background="#ffffff", fg="#000000", anchor="w")
+            example_name_label.pack(pady=5, fill='x', expand=True)
 
-            example_description_label = tk.Label(example_description_frame, text=example['description'], background="#ffffff", fg="#000000")
-            example_description_label.pack(pady=5)
+            example_description_label = tk.Label(example_description_frame, text=example['description'], background="#ffffff", fg="#000000", anchor="w")
+            example_description_label.pack(pady=5, fill='x', expand=True)
 
             if os.path.exists(example['image']):
                 example_image = Image.open(example['image'])
